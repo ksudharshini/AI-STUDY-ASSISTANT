@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Study Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,650&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <nav class="rail">
+    <div class="rail-brand">
+      <span class="rail-brand-mark">§</span>
+      <span class="rail-brand-name">Study<br>Assistant</span>
+    </div>
+    <button class="rail-tab is-active" data-view="chat">
+      <span class="rail-tab-num">1</span> Chat
+    </button>
+    <button class="rail-tab" data-view="materials">
+      <span class="rail-tab-num">2</span> Materials
+    </button>
+    <button class="rail-tab" data-view="quiz">
+      <span class="rail-tab-num">3</span> Quiz
+    </button>
+    <button class="rail-tab" data-view="plan">
+      <span class="rail-tab-num">4</span> Study plan
+    </button>
+    <div class="rail-status" id="llm-status">checking engine&hellip;</div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ============================================================ CHAT -->
+    <section class="view is-active" id="view-chat">
+      <header class="view-head">
+        <h1>Ask about your course</h1>
+        <p>Answers are grounded in whatever you've uploaded under Materials, plus what we've already talked about.</p>
+      </header>
+
+      <div class="chat-thread" id="chat-thread">
+        <div class="chat-empty" id="chat-empty">
+          <p>No messages yet. Upload a document under <strong>Materials</strong>, then ask a question here — or just ask; I'll do my best without it.</p>
+        </div>
+      </div>
+
+      <form class="chat-input-row" id="chat-form">
+        <input type="text" id="chat-input" placeholder="e.g. Explain the second law in plain terms" autocomplete="off" />
+        <button type="submit" class="btn btn-primary">Ask</button>
+      </form>
+    </section>
+
+    <!-- ======================================================= MATERIALS -->
+    <section class="view" id="view-materials">
+      <header class="view-head">
+        <h1>Course materials</h1>
+        <p>Upload lecture notes, readings, or paste text directly. Everything here is chunked and indexed for retrieval — this is what grounds the chat, quiz, and study plan.</p>
+      </header>
+
+      <div class="materials-input">
+        <div class="upload-drop" id="upload-drop">
+          <input type="file" id="file-input" accept=".txt,.md,.pdf" hidden />
+          <p><strong>Drop a file</strong> (.txt, .md, .pdf) or <button type="button" class="link-btn" id="browse-btn">browse</button></p>
+        </div>
+        <div class="paste-drop">
+          <textarea id="paste-text" placeholder="…or paste notes directly here"></textarea>
+          <button type="button" class="btn btn-secondary" id="paste-submit">Add as material</button>
+        </div>
+      </div>
+
+      <ul class="materials-list" id="materials-list">
+        <li class="materials-empty">No materials uploaded yet.</li>
+      </ul>
+    </section>
+
+    <!-- ============================================================ QUIZ -->
+    <section class="view" id="view-quiz">
+      <header class="view-head">
+        <h1>Quiz yourself</h1>
+        <p>Generates multiple-choice questions from your uploaded material.</p>
+      </header>
+
+      <form class="quiz-controls" id="quiz-form">
+        <input type="text" id="quiz-topic" placeholder="Topic (optional — leave blank for general)" />
+        <label class="num-field">Questions
+          <input type="number" id="quiz-count" min="3" max="10" value="5" />
+        </label>
+        <button type="submit" class="btn btn-primary">Generate quiz</button>
+      </form>
+
+      <div class="quiz-body" id="quiz-body">
+        <p class="placeholder-copy">Your quiz will appear here.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ PLAN -->
+    <section class="view" id="view-plan">
+      <header class="view-head">
+        <h1>Build a study plan</h1>
+        <p>A day-by-day schedule shaped around your goal and your uploaded material.</p>
+      </header>
+
+      <form class="plan-controls" id="plan-form">
+        <input type="text" id="plan-goal" placeholder="Goal, e.g. Pass the midterm on thermodynamics" />
+        <label class="num-field">Days
+          <input type="number" id="plan-days" min="1" max="30" value="7" />
+        </label>
+        <label class="num-field">Min / day
+          <input type="number" id="plan-minutes" min="10" max="240" value="45" />
+        </label>
+        <button type="submit" class="btn btn-primary">Build plan</button>
+      </form>
+
+      <div class="plan-body" id="plan-body">
+        <p class="placeholder-copy">Your study plan will appear here.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
